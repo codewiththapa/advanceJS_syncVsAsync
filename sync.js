@@ -61,7 +61,7 @@ sync(single threaded)     Async(multiThreaded) also known as concurrency  e.g: s
   console.log('i code react js');
 
 
-// Promises:
+/*   Promises: NOTE: we have to write "new" keyword before promise because promise is a  constructor function in js.   */
 
 let yourPromise = new Promise((reslove,reject)=>{
   if(true){
@@ -74,3 +74,18 @@ let yourPromise = new Promise((reslove,reject)=>{
 yourPromise
 .then(()=>{console.log('your promise succedd');})
 .catch(()=>{console.log('your promise is failed');});
+
+
+//Q: user ask a number between  0 to 9 if number is below 5 resolve if not reject:
+
+let numberIs = new Promise((resolve,reject)=>{
+ let num = Math.floor(Math.random()*10);
+ if(num>5){
+  return resolve();
+ }else{
+  return reject();
+ }
+});
+
+numberIs.then(()=>{console.log("number is greater then 5 = resolved")})
+.catch(()=>{console.log('number is below 5  = rejected');});

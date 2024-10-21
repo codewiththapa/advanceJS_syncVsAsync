@@ -44,14 +44,16 @@ Microtasks have higher priority than tasks in the task queue. After each functio
       Q.  single threaded vs Multi threaded language ?
 sync(single threaded)     Async(multiThreaded) also known as concurrency  e.g: setTimeOut
 
+#NOTE: In Event Loop we have (1) "call stack" : follows " LIFO " Where functions and js synchronous code is stored for exection line by line using "LIFO" principal..
+(2) callbackQueue(Task Queue): here asynchronous code like ... setTimeOut() , promises,setInterval , etc. are stroed and waits for the first call stack  sync codes will execute after that Callback queue -> Async code will execute...Here in between callStack and callBack queue -> Event loop will check both codes to run ..
+
   #NOTE:  fetch , axios , promises , setTimeOut , setInterval   -> use  to send reqest.
 # then catch , callBacks , async await   
 
 # promises : 3 states   1:pending  2: resolve  3:reject
                               if reslove -> use   .then            if reject ->     .catch
-
-
-  */
+                                                                                      
+ #Note: write promise code only if we rely on 3rd party code like AJAX                 */
 
   console.log('i code javascript');
   //Async code..
@@ -89,3 +91,76 @@ let numberIs = new Promise((resolve,reject)=>{
 
 numberIs.then(()=>{console.log("number is greater then 5 = resolved")})
 .catch(()=>{console.log('number is below 5  = rejected');});
+
+
+// Q: promises:   task1: open the door   task2:go to kitchen  task3: cook food   task4:eat food    task5:now sleep
+
+let task1 = new Promise((resolve,reject)=>{
+  return resolve('task1: open the door');
+});
+
+ let task2 = task1.then(function(data){
+  console.log(data);
+  return new Promise(function(resolve,reject){
+    return resolve('task2: go to kitchen ')
+  });
+});
+
+let task3 = task2.then((data)=>{
+  console.log(data);
+  return new Promise((resolve,reject)=>{
+     return resolve(' task3: cook food');
+  });
+});
+
+let task4 = task3.then((data)=>{
+  console.log(data);
+  return new Promise((resolve,reject)=>{
+     return resolve('task4:eat food')
+  })
+});
+
+let task5 = task4.then((data)=>{
+  console.log(data);
+  return new Promise((resolve,reject)=>{
+      return resolve('task5: now sleep');
+  })
+});
+
+task5.then((data)=>{
+  console.log(data)
+});
+
+
+//  fetch()
+
+function fetching (){
+  fetch('https://randomuser.me/api/')
+    .then((raw)=>{
+      return raw.json();
+    })
+    .then((data)=>{
+      console.log(data);
+    })
+};
+fetching();
+
+//now in async await version
+
+
+ async function fetchData (){
+   let rawData = await fetch('https://randomuser.me/api/')
+     let finalData = await rawData.json();
+     console.log(finalData);
+ 
+};
+
+fetchData();
+
+// setTimeOut
+
+function time(){
+  console.log('async setTime out is');
+}
+
+setTimeout(time,3000);

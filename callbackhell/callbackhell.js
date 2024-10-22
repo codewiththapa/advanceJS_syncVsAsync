@@ -47,3 +47,57 @@ task('task one ',()=>{
   },()=>{task('task four')
 });
 
+
+//callback hell    task1<task2<task3<task4
+
+function task1(callback){
+  setTimeout(()=>{
+console.log("task1 is complete");
+callback();
+   },2000)
+   
+};
+
+function task2(callback){
+  setTimeout(()=>{
+ console.log("task2 is complete");
+ callback();
+   },5000)
+  
+}
+
+function task3(callback){
+  setTimeout(()=>{
+  console.log("task3 is complete");
+  callback();
+   },1000)
+ 
+}
+
+function task4(callback){
+  setTimeout(()=>{
+console.log("task4 is complete");
+   callback();
+   },3000)
+
+}
+
+task1(()=>{
+ task2(()=>{
+   task3(()=>{
+      task4(()=>{
+         console.log('All task is completed');
+      });
+
+   });
+ });  
+});
+
+
+
+
+
+
+
+
+
